@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+   DESIGN TOKENS — Paleta "Old Money"
+   Marfil · Navy Profundo · Oro Antiguo
+   ───────────────────────────────────────────── */
+:root {
+  /* Fondos */
+  --background:    #F2EDE3;   /* lino cálido / pergamino */
+  --surface:       #FAF8F2;   /* crema */
+  --surface-raised:#FFFFFF;
+
+  /* Texto */
+  --primary-text:  #0D1F3C;   /* navy profundo */
+  --muted-text:    #7A6E5F;   /* taupe cálido */
+  --subtle-text:   #B8A99A;   /* muy sutil */
+
+  /* Acento principal — navy (CTA, botones) */
+  --accent:        #0D1F3C;
+  --accent-fg:     #FAF8F2;
+
+  /* Oro antiguo — highlights, activos, detalles */
+  --gold:          #B08D57;
+  --gold-light:    #D4B483;
+  --gold-fg:       #FAF8F2;
+
+  /* Estado */
+  --success:       #2D6A4F;
+  --danger:        #C1440E;
+
+  /* Bordes */
+  --border:        #D9D0C0;   /* arena cálida */
+  --border-strong: #A89880;
+
+  /* Sombras suaves (no brutalistas) */
+  --shadow-xs: 0 1px 2px rgba(13,31,60,0.05);
+  --shadow-sm: 0 1px 4px rgba(13,31,60,0.07), 0 1px 2px rgba(13,31,60,0.04);
+  --shadow-md: 0 4px 16px rgba(13,31,60,0.09), 0 2px 4px rgba(13,31,60,0.05);
+  --shadow-lg: 0 8px 32px rgba(13,31,60,0.10), 0 4px 8px rgba(13,31,60,0.06);
+  --shadow-card: 0 2px 8px rgba(13,31,60,0.06), 0 12px 40px rgba(13,31,60,0.08);
+}
+
+.dark {
+  --background:    #080F1D;
+  --surface:       #0F1929;
+  --surface-raised:#162035;
+
+  --primary-text:  #EDE8DC;   /* marfil cálido */
+  --muted-text:    #8A7E70;
+  --subtle-text:   #5C5248;
+
+  --accent:        #C9A84C;   /* oro brillante en oscuro */
+  --accent-fg:     #080F1D;
+
+  --gold:          #C9A84C;
+  --gold-light:    #E0C47C;
+  --gold-fg:       #080F1D;
+
+  --success:       #4ADE80;
+  --danger:        #F87171;
+
+  --border:        #2A3548;
+  --border-strong: #3D4F6A;
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-sm: 0 1px 4px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.20);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.20);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.40), 0 4px 8px rgba(0,0,0,0.25);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.25), 0 12px 40px rgba(0,0,0,0.35);
+}
+
+/* ─────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────── */
+@layer base {
+  html {
+    height: 100%;
+    font-size: 16px;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    height: 100%;
+    background-color: var(--background);
+    color: var(--primary-text);
+    font-family: var(--font-atkinson), 'Segoe UI', system-ui, sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    overscroll-behavior: none;
+    touch-action: manipulation;
+    transition: background-color 0.6s ease, color 0.6s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────
+   COMPONENTES
+   ───────────────────────────────────────────── */
+@layer components {
+
+  /* Pantalla: ocupa viewport completo */
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    will-change: transform, opacity;
+  }
+
+  /* Anillo de eco táctil — oro elegante */
+  .echo-ring {
+    position: absolute;
+    inset: -4px;
+    border-radius: inherit;
+    border: 1.5px solid var(--gold);
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* Card premium con sombra suave */
+  .card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    border-radius: 1.5rem;
+    transition: box-shadow 0.3s ease, transform 0.25s ease;
+  }
+  .card:active {
+    transform: scale(0.985);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Divisor dorado — línea ornamental degradada */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+    opacity: 0.55;
+  }
+
+  /* Badge de número de ficha */
+  .ticket-badge {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    border-radius: 0.75rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Tecla de teclado — estilo Old Money */
+  .kiosk-key {
+    background-color: var(--surface);
+    color: var(--primary-text);
+    border: 1px solid var(--border);
+    border-radius: 0.875rem;
+    min-height: 6rem;
+    box-shadow: var(--shadow-xs);
+    transition: all 0.15s ease-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.75rem;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    outline: none;
+  }
+  .kiosk-key:active,
+  .kiosk-key:focus-visible {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-md);
+    transform: scale(0.96);
+  }
+  .kiosk-key:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .kiosk-key:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
