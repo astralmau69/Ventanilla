@@ -65,6 +65,7 @@ export const medicos: Medico[] = [
     especialidadId: "cardio",
     regionalId: "lpz",
     diasAtencion: [1, 2, 4], // Lun, Mar, Jue
+    consultorio: "Cons. 2 — Piso 2",
     horariosDisponibles: [...MANANA.slice(0, 6), ...TARDE.slice(0, 4)],
     ocupados: [
       { fecha: ds(0), hora: "08:00" },
@@ -84,6 +85,7 @@ export const medicos: Medico[] = [
     especialidadId: "medgen",
     regionalId: "cbba",
     diasAtencion: [1, 2, 3, 4, 5],
+    consultorio: "Cons. 1 — Piso 1",
     horariosDisponibles: [...MANANA, ...TARDE],
     ocupados: [
       { fecha: ds(0), hora: "08:00" },
@@ -101,6 +103,7 @@ export const medicos: Medico[] = [
     especialidadId: "medgen",
     regionalId: "cbba",
     diasAtencion: [2, 4, 6], // Mar, Jue, Sáb
+    consultorio: "Cons. 3 — Piso 1",
     horariosDisponibles: MANANA,
     ocupados: [
       { fecha: ds(1), hora: "08:00" },
@@ -117,6 +120,7 @@ export const medicos: Medico[] = [
     especialidadId: "cardio",
     regionalId: "cbba",
     diasAtencion: [1, 3, 5],
+    consultorio: "Cons. 5 — Piso 2",
     horariosDisponibles: [...MANANA.slice(0, 5), ...TARDE.slice(0, 3)],
     ocupados: [
       { fecha: ds(0), hora: "08:00" },
@@ -134,6 +138,7 @@ export const medicos: Medico[] = [
     especialidadId: "pediatr",
     regionalId: "scz",
     diasAtencion: [1, 2, 3, 4, 5],
+    consultorio: "Cons. 7 — Piso 1",
     horariosDisponibles: [...MANANA, ...TARDE],
     ocupados: [
       { fecha: ds(0), hora: "08:00" },
@@ -153,6 +158,7 @@ export const medicos: Medico[] = [
     especialidadId: "trauma",
     regionalId: "oru",
     diasAtencion: [1, 3, 5],
+    consultorio: "Cons. 8 — Piso 3",
     horariosDisponibles: MANANA,
     ocupados: [
       { fecha: ds(0), hora: "08:00" },
@@ -173,6 +179,7 @@ export const medicos: Medico[] = [
     especialidadId: "gineco",
     regionalId: "oru",
     diasAtencion: [2, 4],
+    consultorio: "Cons. 9 — Piso 2",
     horariosDisponibles: [...MANANA.slice(0, 6), ...TARDE.slice(0, 3)],
     ocupados: [
       { fecha: ds(1), hora: "08:00" },
@@ -194,6 +201,7 @@ export const medicos: Medico[] = [
     regionalId: "lpz",
     diasAtencion: [], // ignorado porque fechasAtencion tiene precedencia
     fechasAtencion: [ds(1), ds(3), ds(5), ds(7)],
+    consultorio: "Cons. 10 — Piso 1",
     horariosDisponibles: [...MANANA],
     ocupados: [
       /* ds(1) completamente reservado */

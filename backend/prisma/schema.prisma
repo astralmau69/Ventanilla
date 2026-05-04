@@ -1,0 +1,100 @@
+// ─────────────────────────────────────────────────────────────────────────────
+//  Kiosco Hospitalario — Esquema Prisma
+//  Sprint 4: conectar TurnosService y PacientesService a este esquema.
+//  Sprint 5: agregar tabla CallLog para la pantalla TV.
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Pacientes (caché local — fuente canónica: HIS del hospital en Fase C) ───
+model Paciente {
+  id             String   @id @default(cuid())
+  carnet         String   @unique
+  nombre         String
+  apellido       String
+  nombreCompleto String
+  iniciales      String   @db.VarChar(4)
+  prioritario    Boolean  @default(false)
+  activo         Boolean  @default(true)
+  creadoEn       DateTime @default(now())
+  actualizadoEn  DateTime @updatedAt
+
+  turnos         Turno[]
+
+  @@map("pacientes")
+}
+
+// ─── Especialidades ───────────────────────────────────────────────────────────
+model Especialidad {
+  id          String  @id          // "cardio", "medgen", etc.
+  nombre      String
+  descripcion String
+  letraTurno  String  @db.VarChar(1)
+  activa      Boolean @default(true)
+
+  turnos      Turno[]
+
+  @@map("especialidades")
+}
+
+// ─── Turnos ───────────────────────────────────────────────────────────────────
+model Turno {
+  id             String      @id @default(cuid())
+  numero         String                             // "A-042"
+  letra          String      @db.VarChar(1)
+  correlativo    Int
+  estado         EstadoTurno @default(pendiente)
+
+  // Relaciones
+  carnet         String
+  paciente       Paciente    @relation(fields: [carnet], references: [carnet])
+  especialidadId String
+  especialidad   Especialidad @relation(fields: [especialidadId], references: [id])
+  medicoId       String
+  regionalId     String
+
+  // Cita
+  fecha          String                             // YYYY-MM-DD
+  hora           String                             // HH:MM
+
+  creadoEn       DateTime    @default(now())
+  actualizadoEn  DateTime    @updatedAt
+
+  // Auditoría inmutable
+  audit          AuditTurno?
+
+  // Índice para consulta rápida del correlativo diario
+  @@unique([especialidadId, fecha, correlativo])
+  @@index([fecha])
+  @@index([especialidadId, fecha])
+  @@map("turnos")
+}
+
+enum EstadoTurno {
+  pendiente
+  llamado
+  atendido
+  ausente
+}
+
+// ─── Auditoría (append-only) ──────────────────────────────────────────────────
+model AuditTurno {
+  id             String   @id @default(cuid())
+  turnoId        String   @unique
+  turno          Turno    @relation(fields: [turnoId], references: [id])
+  carnet         String
+  especialidadId String
+  numero         String
+  fecha          String
+  hora           String
+  creadoEn       DateTime @default(now())
+
+  @@map("audit_turnos")
+}

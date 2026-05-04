@@ -14,10 +14,12 @@ type SubStep = "regional" | "especialidad" | "medico" | "horario" | "confirmacio
 interface ReservationFlowProps {
   onBack: () => void;    // Volver al menú principal
   onComplete: () => void; // Después de confirmar → volver al menú
+  pacienteNombre: string;
+  pacienteCarnet: string;
 }
 
 export const ReservationFlow = forwardRef<HTMLDivElement, ReservationFlowProps>(
-  function ReservationFlow({ onBack, onComplete }, ref) {
+  function ReservationFlow({ onBack, onComplete, pacienteNombre, pacienteCarnet }, ref) {
     const [subStep, setSubStep] = useState<SubStep>("regional");
     const [regional, setRegional] = useState<Regional | null>(null);
     const [especialidad, setEspecialidad] = useState<Especialidad | null>(null);
@@ -116,6 +118,8 @@ export const ReservationFlow = forwardRef<HTMLDivElement, ReservationFlowProps>(
             especialidad={especialidad}
             medico={medico}
             slot={slot}
+            pacienteNombre={pacienteNombre}
+            pacienteCarnet={pacienteCarnet}
             onDone={onComplete}
           />
         )}

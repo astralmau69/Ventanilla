@@ -183,11 +183,13 @@ export function KioskApp() {
         />
       )}
 
-      {step === "reserva" && (
+      {step === "reserva" && patient && (
         <ReservationFlow
           ref={reservaRef}
           onBack={backToMenu}
           onComplete={backToMenu}
+          pacienteNombre={patient.name}
+          pacienteCarnet={patient.carnet}
         />
       )}
 
